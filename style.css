@@ -1,0 +1,91 @@
+body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Courier New', monospace;
+  color: #f2f2f2;
+  background: url("v.jpeg") center/cover no-repeat;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(12px);
+  background: rgba(15,15,25,0.75);
+  z-index: 0;
+}
+
+canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+}
+
+.container {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 520px;
+  padding: 20px;
+  margin: auto;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.hidden { display: none; }
+
+input {
+  background: none;
+  border: 1px solid #aaa;
+  padding: 8px 14px;
+  color: #fff;
+  border-radius: 16px;
+  outline: none;
+}
+
+button {
+  margin-top: 25px;
+  background: none;
+  border: 1px solid #aaa;
+  padding: 8px 22px;
+  border-radius: 20px;
+  color: #fff;
+  cursor: pointer;
+}
+
+#text {
+  white-space: pre-line;
+  font-size: 22px;
+  border-right: 2px solid #aaa;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+
+.heart {
+  font-size: 38px;
+  margin-bottom: 18px;
+  animation: pulse 1.6s infinite;
+  cursor: pointer;
+}
+
+@keyframes pulse {
+  50% { transform: scale(1.15); }
+}
+
+.fade {
+  font-size: 24px;
+  opacity: 0;
+  animation: fadeIn 4s forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+.final { font-size: 22px; }
+.signature { opacity: 0.7; }
+.date { font-size: 13px; opacity: 0.6; }

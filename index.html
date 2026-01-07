@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>For Vaishuuu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- 🎵 Background Music -->
+<audio id="bgm" loop>
+    <source src="a.mp3" type="audio/mpeg">
+</audio>
+
+<canvas id="stars"></canvas>
+
+<div class="container" id="screen1">
+    <div class="heart" id="heart">💛</div>
+    <h1 id="text"></h1>
+    <button onclick="nextScreen()">and then…</button>
+</div>
+
+<div class="container hidden" id="screen2">
+    <p class="fade">Some people feel like calm.</p>
+</div>
+
+<div class="container hidden" id="screen3">
+    <p class="final">This moment is yours, Vaishnavi.</p>
+    <p class="signature">— Aryan</p>
+    <p class="date" id="date"></p>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

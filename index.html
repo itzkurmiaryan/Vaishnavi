@@ -1,35 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>For Vaishuuu</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>A Small Choice</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- 🎵 Background Music -->
-<audio id="bgm" loop>
-    <source src="a.mp3" type="audio/mpeg">
-</audio>
+<!-- PASSWORD SCREEN -->
+<div class="container" id="lockScreen">
+  <h1>Not for everyone.</h1>
+  <p class="sub">Some stories need permission.</p>
 
-<canvas id="stars"></canvas>
+  <input type="password" id="passwordInput" placeholder="Enter password" />
+  <button onclick="checkPassword()">Unlock</button>
 
-<div class="container" id="screen1">
-    <div class="heart" id="heart">💛</div>
-    <h1 id="text"></h1>
-    <button onclick="nextScreen()">and then…</button>
+  <p class="hint">Hint: Some moments stay.</p>
+  <p id="error"></p>
 </div>
 
-<div class="container hidden" id="screen2">
-    <p class="fade">Some people feel like calm.</p>
-</div>
+<!-- STORY SCREEN -->
+<div class="container hidden" id="storyScreen">
+  <div id="storyText" class="text"></div>
+  <div id="buttons" class="buttons"></div>
 
-<div class="container hidden" id="screen3">
-    <p class="final">This moment is yours, Vaishnavi.</p>
-    <p class="signature">— Aryan</p>
-    <p class="date" id="date"></p>
+  <!-- FINAL REPLY BUTTON -->
+  <a id="replyBtn" class="reply hidden"
+     href="https://instagram.com/direct/new/"
+     target="_blank">
+     Reply 🙂
+  </a>
 </div>
 
 <script src="script.js"></script>

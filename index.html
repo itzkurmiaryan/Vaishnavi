@@ -1,38 +1,304 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>A Small Choice</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>A Thought, Slowly</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+body{
+  margin:0;
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background:radial-gradient(circle at top,#0b1d26,#000);
+  color:#fff;
+  min-height:100vh;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  overflow-x:hidden;
+  overflow-y:auto;
+  transition:background 2.2s ease;
+}
+
+body.warm{
+  background:radial-gradient(circle at top,#3a1c71,#d76d77,#ffaf7b);
+}
+
+.container{
+  width:100%;
+  max-width:380px;
+  padding:16px 16px 40px;
+}
+
+.card{
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(12px);
+  border-radius:22px;
+  padding:22px;
+  box-shadow:0 20px 50px rgba(0,0,0,.6);
+  animation:fadeUp 1.6s ease;
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+h2{
+  font-weight:500;
+  margin:0 0 6px;
+  text-align:center;
+}
+
+#typing{
+  text-align:center;
+  font-size:14px;
+  opacity:.9;
+  min-height:22px;
+}
+
+/* 🌹 ROSE */
+.rose-wrap{
+  display:flex;
+  justify-content:center;
+  margin:18px 0 10px;
+}
+
+.rose{
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 30% 30%, #ff9ab5, #ff4d6d 60%, #b8002e);
+  box-shadow:0 0 25px rgba(255,77,109,.6);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:42px;
+  cursor:pointer;
+  animation:pulse 2.5s infinite;
+}
+
+@keyframes pulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.07)}
+}
+
+.rose:active{
+  transform:scale(.92);
+}
+
+.rose-msg{
+  display:none;
+  margin-top:14px;
+  text-align:center;
+  font-size:14px;
+  line-height:1.6;
+  animation:fadeUp 1.2s ease;
+}
+
+.progress{
+  margin:16px 0;
+  height:4px;
+  background:rgba(255,255,255,.15);
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.bar{
+  height:100%;
+  width:0%;
+  background:#ff4d6d;
+  transition:width .6s ease;
+}
+
+.btn{
+  width:100%;
+  padding:14px;
+  margin-top:10px;
+  border:none;
+  border-radius:14px;
+  background:#ff4d6d;
+  color:#fff;
+  font-size:15px;
+}
+
+.hint{
+  display:none;
+  margin-top:10px;
+  padding:12px;
+  border-radius:12px;
+  background:rgba(255,255,255,.12);
+  font-size:14px;
+  animation:fadeUp .8s ease;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  margin-top:12px;
+  border-radius:14px;
+  border:none;
+  font-size:15px;
+}
+
+.message{
+  display:none;
+  margin-top:18px;
+  font-size:15px;
+  line-height:1.65;
+  animation:fadeUp 1.8s ease;
+}
+
+.signature{
+  margin-top:16px;
+  opacity:.85;
+  text-align:right;
+}
+
+/* petals */
+.petal{
+  position:fixed;
+  top:-40px;
+  width:14px;
+  height:14px;
+  background:radial-gradient(circle,#ff9ab5,#ff4d6d);
+  border-radius:50% 50% 50% 0;
+  opacity:.5;
+  animation:fall linear infinite;
+}
+
+@keyframes fall{
+  to{transform:translateY(110vh) rotate(360deg)}
+}
+</style>
 </head>
+
 <body>
 
-<!-- PASSWORD SCREEN -->
-<div class="container" id="lockScreen">
-  <h1>Not for everyone.</h1>
-  <p class="sub">Some stories need permission.</p>
+<div class="container">
+<div class="card">
 
-  <input type="password" id="passwordInput" placeholder="Enter password" />
-  <button onclick="checkPassword()">Unlock</button>
+<h2>Not a Shortcut.</h2>
+<div id="typing"></div>
 
-  <p class="hint">Hint: Some moments stay.</p>
-  <p id="error"></p>
+<!-- 🌹 ROSE -->
+<div class="rose-wrap">
+  <div class="rose" onclick="roseTouch()">🌹</div>
 </div>
 
-<!-- STORY SCREEN -->
-<div class="container hidden" id="storyScreen">
-  <div id="storyText" class="text"></div>
-  <div id="buttons" class="buttons"></div>
-
-  <!-- FINAL REPLY BUTTON -->
-  <a id="replyBtn" class="reply hidden"
-     href="https://instagram.com/direct/new/"
-     target="_blank">
-     Reply 🙂
-  </a>
+<div id="roseMsg" class="rose-msg">
+  Ye rose sirf flower nahi hai,<br>
+  ye ek silent promise hai —<br>
+  care, respect aur patience ka.
 </div>
 
-<script src="script.js"></script>
+<div class="progress"><div id="bar" class="bar"></div></div>
+
+<button class="btn" onclick="unlock(1)">Unlock Hint 1</button>
+<div id="h1" class="hint">It’s not a word. It’s a name.</div>
+
+<button class="btn" onclick="unlock(2)">Unlock Hint 2</button>
+<div id="h2" class="hint">It belongs to someone important.</div>
+
+<button class="btn" onclick="unlock(3)">Unlock Hint 3</button>
+<div id="h3" class="hint">It starts with care, not expectations.</div>
+
+<input id="ans" placeholder="Type the name">
+<button class="btn" onclick="check()">Continue</button>
+
+<div id="wrong" class="hint"></div>
+
+<div id="final" class="message">
+<strong>Ridhima,</strong><br><br>
+
+ye propose isliye nahi hai<br>
+kyunki aaj Propose Day hai,<br>
+balki isliye kyunki tum important ho.<br><br>
+
+Main ye wada nahi karta<br>
+ki sab perfect hoga,<br>
+par jab bhi tumhari baat hogi,<br>
+meri priority automatically tum ban jaogi.<br><br>
+
+Ye koi pressure nahi,<br>
+bas ek honest sa thought hai —<br>
+agar tum comfortable ho,<br>
+toh kya main respect, care aur patience ke saath<br>
+tumhari zindagi ka thoda sa hissa ban sakta hoon?<br><br>
+
+No rush.<br>
+No expectations.<br>
+Bas sincerity.
+
+<div class="signature">— Aryan</div>
+</div>
+
+</div>
+</div>
+
+<audio id="bg" loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_3c8c7b0e1c.mp3">
+</audio>
+
+<script>
+/* typing */
+const text="Some things are worth understanding… slowly.";
+let i=0;
+(function type(){
+ if(i<text.length){
+  typing.innerHTML+=text.charAt(i++);
+  setTimeout(type,60+Math.random()*50);
+ }
+})();
+
+/* rose touch */
+function roseTouch(){
+ document.getElementById("roseMsg").style.display="block";
+ if(navigator.vibrate) navigator.vibrate([40,30,40]);
+}
+
+/* hints */
+let p=0;
+function unlock(n){
+ document.getElementById("h"+n).style.display="block";
+ p+=30;
+ bar.style.width=p+"%";
+ bg.play();
+}
+
+/* check */
+function check(){
+ let v=ans.value.trim().toLowerCase();
+ if(v==="ridhima"){
+  document.body.classList.add("warm");
+  bar.style.width="100%";
+  final.style.display="block";
+  petals();
+  final.scrollIntoView({behavior:"smooth"});
+ }
+ else{
+  wrong.style.display="block";
+  wrong.innerText="Not wrong… just not the one my heart meant.";
+ }
+}
+
+/* petals */
+function petals(){
+ for(let i=0;i<18;i++){
+  let p=document.createElement("div");
+  p.className="petal";
+  p.style.left=Math.random()*100+"vw";
+  p.style.animationDuration=6+Math.random()*6+"s";
+  document.body.appendChild(p);
+ }
+}
+</script>
+
 </body>
 </html>

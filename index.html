@@ -2,303 +2,154 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>A Thought, Slowly</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chocolate Day</title>
 <style>
 *{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
+  margin:0;padding:0;box-sizing:border-box;
+  font-family: 'Segoe UI', sans-serif;
 }
-
 body{
-  margin:0;
-  font-family:system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background:radial-gradient(circle at top,#0b1d26,#000);
+  background: radial-gradient(circle at top,#2b0a0a,#000);
   color:#fff;
   min-height:100vh;
   display:flex;
-  align-items:flex-start;
   justify-content:center;
-  overflow-x:hidden;
-  overflow-y:auto;
-  transition:background 2.2s ease;
-}
-
-body.warm{
-  background:radial-gradient(circle at top,#3a1c71,#d76d77,#ffaf7b);
-}
-
-.container{
-  width:100%;
-  max-width:380px;
-  padding:16px 16px 40px;
-}
-
-.card{
-  background:rgba(0,0,0,.55);
-  backdrop-filter:blur(12px);
-  border-radius:22px;
-  padding:22px;
-  box-shadow:0 20px 50px rgba(0,0,0,.6);
-  animation:fadeUp 1.6s ease;
-}
-
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(30px)}
-  to{opacity:1;transform:translateY(0)}
-}
-
-h2{
-  font-weight:500;
-  margin:0 0 6px;
-  text-align:center;
-}
-
-#typing{
-  text-align:center;
-  font-size:14px;
-  opacity:.9;
-  min-height:22px;
-}
-
-/* 🌹 ROSE */
-.rose-wrap{
-  display:flex;
-  justify-content:center;
-  margin:18px 0 10px;
-}
-
-.rose{
-  width:120px;
-  height:120px;
-  border-radius:50%;
-  background:
-    radial-gradient(circle at 30% 30%, #ff9ab5, #ff4d6d 60%, #b8002e);
-  box-shadow:0 0 25px rgba(255,77,109,.6);
-  display:flex;
   align-items:center;
-  justify-content:center;
-  font-size:42px;
-  cursor:pointer;
-  animation:pulse 2.5s infinite;
-}
-
-@keyframes pulse{
-  0%,100%{transform:scale(1)}
-  50%{transform:scale(1.07)}
-}
-
-.rose:active{
-  transform:scale(.92);
-}
-
-.rose-msg{
-  display:none;
-  margin-top:14px;
-  text-align:center;
-  font-size:14px;
-  line-height:1.6;
-  animation:fadeUp 1.2s ease;
-}
-
-.progress{
-  margin:16px 0;
-  height:4px;
-  background:rgba(255,255,255,.15);
-  border-radius:10px;
   overflow:hidden;
 }
-
-.bar{
-  height:100%;
-  width:0%;
-  background:#ff4d6d;
-  transition:width .6s ease;
+.container{
+  width:100%;
+  max-width:420px;
+  padding:25px;
+  text-align:center;
 }
+.screen{display:none;animation:fade 1s ease;}
+.screen.active{display:block;}
+@keyframes fade{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+h1{font-size:1.6rem;margin-bottom:15px;}
+p{opacity:.9;margin-bottom:20px;line-height:1.5}
 
 .btn{
-  width:100%;
-  padding:14px;
-  margin-top:10px;
+  padding:14px 22px;
+  margin:10px;
+  border-radius:30px;
   border:none;
-  border-radius:14px;
-  background:#ff4d6d;
+  background:#8b0000;
   color:#fff;
-  font-size:15px;
+  font-size:1rem;
+  cursor:pointer;
+  transition:.3s;
 }
+.btn:hover{transform:scale(1.05)}
 
-.hint{
-  display:none;
-  margin-top:10px;
-  padding:12px;
-  border-radius:12px;
-  background:rgba(255,255,255,.12);
-  font-size:14px;
-  animation:fadeUp .8s ease;
-}
-
-input{
+.slider{
   width:100%;
-  padding:14px;
-  margin-top:12px;
-  border-radius:14px;
-  border:none;
-  font-size:15px;
+  margin:30px 0;
+}
+input[type=range]{
+  width:100%;
 }
 
-.message{
-  display:none;
-  margin-top:18px;
-  font-size:15px;
-  line-height:1.65;
-  animation:fadeUp 1.8s ease;
+.heart{
+  font-size:3rem;
+  animation:pulse 1.2s infinite;
+}
+@keyframes pulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.2)}
+  100%{transform:scale(1)}
 }
 
-.signature{
-  margin-top:16px;
-  opacity:.85;
-  text-align:right;
+.reply{
+  margin-top:25px;
+  opacity:0;
+  pointer-events:none;
+  transition:1s;
 }
-
-/* petals */
-.petal{
-  position:fixed;
-  top:-40px;
-  width:14px;
-  height:14px;
-  background:radial-gradient(circle,#ff9ab5,#ff4d6d);
-  border-radius:50% 50% 50% 0;
-  opacity:.5;
-  animation:fall linear infinite;
-}
-
-@keyframes fall{
-  to{transform:translateY(110vh) rotate(360deg)}
+.reply.show{
+  opacity:1;
+  pointer-events:auto;
 }
 </style>
 </head>
-
 <body>
 
 <div class="container">
-<div class="card">
 
-<h2>Not a Shortcut.</h2>
-<div id="typing"></div>
-
-<!-- 🌹 ROSE -->
-<div class="rose-wrap">
-  <div class="rose" onclick="roseTouch()">🌹</div>
+<!-- Screen 1 -->
+<div class="screen active" id="s1">
+  <h1>🍫 Chocolate Day</h1>
+  <p>
+    Chocolate dena easy hota hai…<br>
+    par kisi ko feel karwana thoda special.
+  </p>
+  <button class="btn" onclick="next(2)">Continue</button>
 </div>
 
-<div id="roseMsg" class="rose-msg">
-  Ye rose sirf flower nahi hai,<br>
-  ye ek silent promise hai —<br>
-  care, respect aur patience ka.
+<!-- Screen 2 -->
+<div class="screen" id="s2">
+  <p>
+    Agar ek chocolate kisi ke liye ho…<br>
+    toh wo kis ke liye hogi?
+  </p>
+  <button class="btn" onclick="choose()">🍫 Mere liye</button>
+  <button class="btn" onclick="choose()">🍫 Kisi special ke liye</button>
 </div>
 
-<div class="progress"><div id="bar" class="bar"></div></div>
+<!-- Screen 3 -->
+<div class="screen" id="s3">
+  <p>
+    Chocolate tabhi milegi jab<br>
+    dil se try karogi 🤍
+  </p>
+  <div class="heart">❤️</div>
+  <input type="range" min="0" max="100" value="0" class="slider" oninput="check(this.value)">
+</div>
 
-<button class="btn" onclick="unlock(1)">Unlock Hint 1</button>
-<div id="h1" class="hint">It’s not a word. It’s a name.</div>
+<!-- Screen 4 -->
+<div class="screen" id="s4">
+  <p>
+    Sach kahu…<br><br>
+    Ye chocolate tumhare liye hi hai 🍫<br>
+    Shayad tumhe pata na ho,<br>
+    par kuch log bina baat kiye bhi<br>
+    kisi ko special maan lete hain.
+  </p>
 
-<button class="btn" onclick="unlock(2)">Unlock Hint 2</button>
-<div id="h2" class="hint">It belongs to someone important.</div>
-
-<button class="btn" onclick="unlock(3)">Unlock Hint 3</button>
-<div id="h3" class="hint">It starts with care, not expectations.</div>
-
-<input id="ans" placeholder="Type the name">
-<button class="btn" onclick="check()">Continue</button>
-
-<div id="wrong" class="hint"></div>
-
-<div id="final" class="message">
-<strong>Ridhima,</strong><br><br>
-
-ye propose isliye nahi hai<br>
-kyunki aaj Propose Day hai,<br>
-balki isliye kyunki tum important ho.<br><br>
-
-Main ye wada nahi karta<br>
-ki sab perfect hoga,<br>
-par jab bhi tumhari baat hogi,<br>
-meri priority automatically tum ban jaogi.<br><br>
-
-Ye koi pressure nahi,<br>
-bas ek honest sa thought hai —<br>
-agar tum comfortable ho,<br>
-toh kya main respect, care aur patience ke saath<br>
-tumhari zindagi ka thoda sa hissa ban sakta hoon?<br><br>
-
-No rush.<br>
-No expectations.<br>
-Bas sincerity.
-
-<div class="signature">— Aryan</div>
+  <div class="reply" id="reply">
+    <button class="btn" onclick="reply()">Chocolate ke liye thank you bolna hai?</button>
+  </div>
 </div>
 
 </div>
-</div>
-
-<audio id="bg" loop>
-<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_3c8c7b0e1c.mp3">
-</audio>
 
 <script>
-/* typing */
-const text="Some things are worth understanding… slowly.";
-let i=0;
-(function type(){
- if(i<text.length){
-  typing.innerHTML+=text.charAt(i++);
-  setTimeout(type,60+Math.random()*50);
- }
-})();
-
-/* rose touch */
-function roseTouch(){
- document.getElementById("roseMsg").style.display="block";
- if(navigator.vibrate) navigator.vibrate([40,30,40]);
+function vibrate(){
+  if(navigator.vibrate) navigator.vibrate(80);
 }
-
-/* hints */
-let p=0;
-function unlock(n){
- document.getElementById("h"+n).style.display="block";
- p+=30;
- bar.style.width=p+"%";
- bg.play();
+function next(n){
+  vibrate();
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('s'+n).classList.add('active');
 }
-
-/* check */
-function check(){
- let v=ans.value.trim().toLowerCase();
- if(v==="ridhima"){
-  document.body.classList.add("warm");
-  bar.style.width="100%";
-  final.style.display="block";
-  petals();
-  final.scrollIntoView({behavior:"smooth"});
- }
- else{
-  wrong.style.display="block";
-  wrong.innerText="Not wrong… just not the one my heart meant.";
- }
+function choose(){
+  vibrate();
+  next(3);
 }
-
-/* petals */
-function petals(){
- for(let i=0;i<18;i++){
-  let p=document.createElement("div");
-  p.className="petal";
-  p.style.left=Math.random()*100+"vw";
-  p.style.animationDuration=6+Math.random()*6+"s";
-  document.body.appendChild(p);
- }
+function check(val){
+  if(val>85){
+    vibrate();
+    next(4);
+    setTimeout(()=>document.getElementById('reply').classList.add('show'),1200);
+  }
+}
+function reply(){
+  window.location.href="https://www.instagram.com/direct/new/?text=Chocolate%20achi%20thi%20🙂";
 }
 </script>
-
 </body>
 </html>

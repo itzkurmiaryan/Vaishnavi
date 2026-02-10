@@ -2,154 +2,201 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chocolate Day</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Teddy Day</title>
+
 <style>
 *{
-  margin:0;padding:0;box-sizing:border-box;
-  font-family: 'Segoe UI', sans-serif;
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
 }
+
 body{
-  background: radial-gradient(circle at top,#2b0a0a,#000);
+  margin:0;
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background:radial-gradient(circle at top,#2b1055,#000);
   color:#fff;
   min-height:100vh;
   display:flex;
+  align-items:flex-start;
   justify-content:center;
-  align-items:center;
-  overflow:hidden;
+  overflow-x:hidden;
+  overflow-y:auto;
+  transition:background 2s ease;
 }
+
+body.soft{
+  background:radial-gradient(circle at top,#ffb6c1,#ffdde1,#fff);
+  color:#2b1055;
+}
+
 .container{
   width:100%;
-  max-width:420px;
-  padding:25px;
-  text-align:center;
+  max-width:380px;
+  padding:16px 16px 40px;
 }
-.screen{display:none;animation:fade 1s ease;}
-.screen.active{display:block;}
-@keyframes fade{
-  from{opacity:0;transform:translateY(20px)}
+
+.card{
+  background:rgba(255,255,255,.08);
+  backdrop-filter:blur(14px);
+  border-radius:22px;
+  padding:22px;
+  box-shadow:0 20px 50px rgba(0,0,0,.5);
+  animation:fadeUp 1.4s ease;
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(30px)}
   to{opacity:1;transform:translateY(0)}
 }
-h1{font-size:1.6rem;margin-bottom:15px;}
-p{opacity:.9;margin-bottom:20px;line-height:1.5}
 
-.btn{
-  padding:14px 22px;
-  margin:10px;
-  border-radius:30px;
-  border:none;
-  background:#8b0000;
-  color:#fff;
-  font-size:1rem;
+h2{
+  text-align:center;
+  margin:0;
+  font-weight:500;
+}
+
+.sub{
+  text-align:center;
+  font-size:14px;
+  opacity:.85;
+  margin-top:6px;
+}
+
+/* 🧸 TEDDY */
+.teddy-wrap{
+  display:flex;
+  justify-content:center;
+  margin:24px 0 12px;
+}
+
+.teddy{
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, #d2a679, #8b5a2b);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:64px;
   cursor:pointer;
-  transition:.3s;
-}
-.btn:hover{transform:scale(1.05)}
-
-.slider{
-  width:100%;
-  margin:30px 0;
-}
-input[type=range]{
-  width:100%;
+  box-shadow:0 0 30px rgba(210,166,121,.7);
+  animation:float 3s ease-in-out infinite;
 }
 
-.heart{
-  font-size:3rem;
-  animation:pulse 1.2s infinite;
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-8px)}
 }
-@keyframes pulse{
+
+.teddy.hug{
+  animation:hug .6s ease;
+}
+
+@keyframes hug{
   0%{transform:scale(1)}
-  50%{transform:scale(1.2)}
+  50%{transform:scale(.92)}
   100%{transform:scale(1)}
 }
 
-.reply{
-  margin-top:25px;
-  opacity:0;
-  pointer-events:none;
-  transition:1s;
+.hug-text{
+  display:none;
+  text-align:center;
+  font-size:14px;
+  line-height:1.6;
+  margin-top:14px;
+  animation:fadeUp 1s ease;
 }
-.reply.show{
-  opacity:1;
-  pointer-events:auto;
+
+/* reveal button */
+.btn{
+  width:100%;
+  margin-top:16px;
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  background:#ff7aa2;
+  color:#fff;
+  font-size:15px;
+}
+
+.message{
+  display:none;
+  margin-top:18px;
+  font-size:15px;
+  line-height:1.7;
+  animation:fadeUp 1.6s ease;
+}
+
+.signature{
+  margin-top:14px;
+  text-align:right;
+  opacity:.85;
 }
 </style>
 </head>
+
 <body>
 
 <div class="container">
+<div class="card">
 
-<!-- Screen 1 -->
-<div class="screen active" id="s1">
-  <h1>🍫 Chocolate Day</h1>
-  <p>
-    Chocolate dena easy hota hai…<br>
-    par kisi ko feel karwana thoda special.
-  </p>
-  <button class="btn" onclick="next(2)">Continue</button>
+<h2>Teddy Day</h2>
+<div class="sub">Tap the teddy… it likes warm hugs 🧸</div>
+
+<div class="teddy-wrap">
+  <div id="teddy" class="teddy" onclick="hug()">🧸</div>
 </div>
 
-<!-- Screen 2 -->
-<div class="screen" id="s2">
-  <p>
-    Agar ek chocolate kisi ke liye ho…<br>
-    toh wo kis ke liye hogi?
-  </p>
-  <button class="btn" onclick="choose()">🍫 Mere liye</button>
-  <button class="btn" onclick="choose()">🍫 Kisi special ke liye</button>
+<div id="hugText" class="hug-text">
+Ye teddy sirf cute nahi hai,<br>
+ye ek feeling hai — comfort wali.
 </div>
 
-<!-- Screen 3 -->
-<div class="screen" id="s3">
-  <p>
-    Chocolate tabhi milegi jab<br>
-    dil se try karogi 🤍
-  </p>
-  <div class="heart">❤️</div>
-  <input type="range" min="0" max="100" value="0" class="slider" oninput="check(this.value)">
+<button class="btn" onclick="reveal()">Open My Thought</button>
+
+<div id="final" class="message">
+<strong>Ridhima,</strong><br><br>
+
+log Teddy isliye dete hain<br>
+taaki jab koi paas na ho,<br>
+toh bhi ek warmth mehsoos ho.<br><br>
+
+Main promise nahi karta<br>
+ki main hamesha perfect rahunga,<br>
+par jab bhi tumhe thoda sa bhi heavy lage,<br>
+main pehle sununga… phir samjhunga.<br><br>
+
+Ye Teddy Day sirf ek excuse hai,<br>
+tumhe ye batane ka<br>
+ki tumhari comfort mere liye matter karti hai.<br><br>
+
+Agar kabhi lage ki duniya thodi zyada loud ho gayi hai,<br>
+toh yaad rakhna —<br>
+kahin ek insaan hai<br>
+jo tumhari silence ko bhi samajhna chahta hai.
+
+<div class="signature">— Aryan</div>
 </div>
 
-<!-- Screen 4 -->
-<div class="screen" id="s4">
-  <p>
-    Sach kahu…<br><br>
-    Ye chocolate tumhare liye hi hai 🍫<br>
-    Shayad tumhe pata na ho,<br>
-    par kuch log bina baat kiye bhi<br>
-    kisi ko special maan lete hain.
-  </p>
-
-  <div class="reply" id="reply">
-    <button class="btn" onclick="reply()">Chocolate ke liye thank you bolna hai?</button>
-  </div>
 </div>
-
 </div>
 
 <script>
-function vibrate(){
-  if(navigator.vibrate) navigator.vibrate(80);
+function hug(){
+  const t=document.getElementById("teddy");
+  t.classList.add("hug");
+  document.getElementById("hugText").style.display="block";
+  if(navigator.vibrate) navigator.vibrate([40,30,40]);
+  setTimeout(()=>t.classList.remove("hug"),600);
 }
-function next(n){
-  vibrate();
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById('s'+n).classList.add('active');
-}
-function choose(){
-  vibrate();
-  next(3);
-}
-function check(val){
-  if(val>85){
-    vibrate();
-    next(4);
-    setTimeout(()=>document.getElementById('reply').classList.add('show'),1200);
-  }
-}
-function reply(){
-  window.location.href="https://www.instagram.com/direct/new/?text=Chocolate%20achi%20thi%20🙂";
+
+function reveal(){
+  document.body.classList.add("soft");
+  document.getElementById("final").style.display="block";
+  document.getElementById("final").scrollIntoView({behavior:"smooth"});
 }
 </script>
+
 </body>
 </html>

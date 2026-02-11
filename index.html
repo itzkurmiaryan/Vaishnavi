@@ -2,112 +2,162 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Teddy Day</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trust Loading...</title>
 
 <style>
 *{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:monospace;
 }
 
 body{
-  margin:0;
-  font-family:system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background:radial-gradient(circle at top,#2b1055,#000);
-  color:#fff;
-  min-height:100vh;
-  display:flex;
-  align-items:flex-start;
-  justify-content:center;
-  overflow-x:hidden;
-  overflow-y:auto;
-  transition:background 2s ease;
-}
-
-body.soft{
-  background:radial-gradient(circle at top,#ffb6c1,#ffdde1,#fff);
-  color:#2b1055;
+    background:#0b0f14;
+    color:#d0f0ff;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow-x:hidden;
 }
 
 .container{
-  width:100%;
-  max-width:380px;
-  padding:16px 16px 40px;
+    width:100%;
+    max-width:380px;
+    padding:20px;
 }
 
-.card{
-  background:rgba(255,255,255,.08);
-  backdrop-filter:blur(14px);
-  border-radius:22px;
-  padding:22px;
-  box-shadow:0 20px 50px rgba(0,0,0,.5);
-  animation:fadeUp 1.4s ease;
+.line{
+    opacity:0;
+    margin-bottom:8px;
+    animation:fadeIn 1s forwards;
 }
 
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(30px)}
-  to{opacity:1;transform:translateY(0)}
+.progress-container{
+    margin-top:20px;
+    width:100%;
+    height:8px;
+    background:#1b2735;
+    border-radius:10px;
+    overflow:hidden;
 }
 
-h2{
-  text-align:center;
-  margin:0;
-  font-weight:500;
+.progress{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#00c6ff,#0072ff);
+    transition:0.4s ease;
 }
 
-.sub{
-  text-align:center;
-  font-size:14px;
-  opacity:.85;
-  margin-top:6px;
+.percent{
+    margin-top:10px;
+    font-size:0.9rem;
+    opacity:0.8;
 }
 
-/* 🧸 TEDDY */
-.teddy-wrap{
-  display:flex;
-  justify-content:center;
-  margin:24px 0 12px;
+.final{
+    margin-top:30px;
+    opacity:0;
+    transition:2s ease;
+    font-size:1rem;
+    line-height:1.6;
 }
 
-.teddy{
-  width:140px;
-  height:140px;
-  border-radius:50%;
-  background:radial-gradient(circle at 30% 30%, #d2a679, #8b5a2b);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:64px;
-  cursor:pointer;
-  box-shadow:0 0 30px rgba(210,166,121,.7);
-  animation:float 3s ease-in-out infinite;
+.final.show{
+    opacity:1;
 }
 
-@keyframes float{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-8px)}
+.footer{
+    margin-top:20px;
+    font-size:0.85rem;
+    opacity:0.6;
 }
 
-.teddy.hug{
-  animation:hug .6s ease;
+@keyframes fadeIn{
+    to{opacity:1;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div id="systemText"></div>
+
+<div class="progress-container" style="display:none;" id="progressBox">
+    <div class="progress" id="progressBar"></div>
+</div>
+
+<div class="percent" id="percentText"></div>
+
+<div class="final" id="finalMessage">
+    Trust doesn’t load instantly.<br><br>
+    No promises uploaded.<br>
+    Only presence detected.<br><br>
+    Consistency mode: ON.<br><br>
+    I won’t ask you to trust me.<br>
+    I’ll just give you reasons… slowly.<br><br>
+    <div class="footer">— Aryan</div>
+</div>
+
+</div>
+
+<script>
+
+const systemLines = [
+    "Initializing connection...",
+    "Checking stability...",
+    "Scanning intentions..."
+];
+
+let index = 0;
+let systemText = document.getElementById("systemText");
+
+function typeLine(){
+    if(index < systemLines.length){
+        let div = document.createElement("div");
+        div.classList.add("line");
+        div.textContent = systemLines[index];
+        systemText.appendChild(div);
+
+        index++;
+        setTimeout(typeLine, 1500);
+    } else {
+        startLoading();
+    }
 }
 
-@keyframes hug{
-  0%{transform:scale(1)}
-  50%{transform:scale(.92)}
-  100%{transform:scale(1)}
+function startLoading(){
+    document.getElementById("progressBox").style.display="block";
+    let progress = 0;
+    let bar = document.getElementById("progressBar");
+    let percentText = document.getElementById("percentText");
+
+    let interval = setInterval(()=>{
+        if(progress < 54){
+            progress += Math.floor(Math.random()*5)+2;
+            if(progress>54) progress=54;
+            bar.style.width = progress + "%";
+            percentText.textContent = "Trust Level: " + progress + "%";
+        } else {
+            clearInterval(interval);
+            percentText.textContent = "Trust doesn't load instantly.";
+            setTimeout(()=>{
+                document.getElementById("finalMessage").classList.add("show");
+            },1500);
+        }
+    },500);
 }
 
-.hug-text{
-  display:none;
-  text-align:center;
-  font-size:14px;
-  line-height:1.6;
-  margin-top:14px;
-  animation:fadeUp 1s ease;
-}
+typeLine();
 
+</script>
+
+</body>
+</html>
 /* reveal button */
 .btn{
   width:100%;

@@ -1,158 +1,145 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Trust Loading...</title>
+<title>ARIDHI</title>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:monospace;
-}
-
 body{
-    background:#0b0f14;
-    color:#d0f0ff;
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    overflow-x:hidden;
+margin:0;
+background:linear-gradient(#0f0f0f,#000);
+color:white;
+font-family:Georgia,serif;
+text-align:center;
+overflow:hidden;
 }
 
-.container{
-    width:100%;
-    max-width:380px;
-    padding:20px;
+.page{
+display:none;
+height:100vh;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+padding:25px;
 }
 
-.line{
-    opacity:0;
-    margin-bottom:8px;
-    animation:fadeIn 1s forwards;
+.active{
+display:flex;
 }
 
-.progress-container{
-    margin-top:20px;
-    width:100%;
-    height:8px;
-    background:#1b2735;
-    border-radius:10px;
-    overflow:hidden;
+h1{
+letter-spacing:6px;
+font-size:2.6rem;
 }
 
-.progress{
-    height:100%;
-    width:0%;
-    background:linear-gradient(90deg,#00c6ff,#0072ff);
-    transition:0.4s ease;
+p{
+max-width:420px;
+line-height:1.8;
+font-size:1.15rem;
+min-height:140px;
 }
 
-.percent{
-    margin-top:10px;
-    font-size:0.9rem;
-    opacity:0.8;
+button{
+margin-top:35px;
+padding:14px 32px;
+border-radius:30px;
+border:none;
+background:linear-gradient(45deg,#ff4d79,#ff1f4b);
+color:white;
+font-size:1rem;
 }
 
-.final{
-    margin-top:30px;
-    opacity:0;
-    transition:2s ease;
-    font-size:1rem;
-    line-height:1.6;
+.heart{
+position:fixed;
+bottom:-20px;
+font-size:20px;
+animation:float 7s linear infinite;
+opacity:0.4;
 }
 
-.final.show{
-    opacity:1;
+@keyframes float{
+0%{transform:translateY(0);opacity:0;}
+50%{opacity:0.6;}
+100%{transform:translateY(-110vh);opacity:0;}
 }
 
-.footer{
-    margin-top:20px;
-    font-size:0.85rem;
-    opacity:0.6;
-}
-
-@keyframes fadeIn{
-    to{opacity:1;}
+.pink{
+background:linear-gradient(#2a0018,#000);
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-
-<div id="systemText"></div>
-
-<div class="progress-container" style="display:none;" id="progressBox">
-    <div class="progress" id="progressBar"></div>
+<div class="page active" id="p1">
+<h1>ARIDHI</h1>
+<div>Not a claim. Just a connection.</div>
+<button onclick="go(2)">Start</button>
 </div>
 
-<div class="percent" id="percentText"></div>
-
-<div class="final" id="finalMessage">
-    Trust doesn’t load instantly.<br><br>
-    No promises uploaded.<br>
-    Only presence detected.<br><br>
-    Consistency mode: ON.<br><br>
-    I won’t ask you to trust me.<br>
-    I’ll just give you reasons… slowly.<br><br>
-    <div class="footer">— Aryan</div>
+<div class="page" id="p2">
+<p id="t2"></p>
+<button onclick="go(3)">Next</button>
 </div>
 
+<div class="page" id="p3">
+<p id="t3"></p>
+<button onclick="go(4)">Continue</button>
+</div>
+
+<div class="page" id="p4">
+<p id="t4"></p>
+<button onclick="go(5)">Almost there</button>
+</div>
+
+<div class="page" id="p5">
+<p id="t5"></p>
+<div style="margin-top:20px;opacity:.6;">— Aryan</div>
 </div>
 
 <script>
 
-const systemLines = [
-    "Initializing connection...",
-    "Checking stability...",
-    "Scanning intentions..."
-];
-
-let index = 0;
-let systemText = document.getElementById("systemText");
-
-function typeLine(){
-    if(index < systemLines.length){
-        let div = document.createElement("div");
-        div.classList.add("line");
-        div.textContent = systemLines[index];
-        systemText.appendChild(div);
-
-        index++;
-        setTimeout(typeLine, 1500);
-    } else {
-        startLoading();
-    }
+function show(id){
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+document.getElementById(id).classList.add("active");
 }
 
-function startLoading(){
-    document.getElementById("progressBox").style.display="block";
-    let progress = 0;
-    let bar = document.getElementById("progressBar");
-    let percentText = document.getElementById("percentText");
+function go(n){
+show("p"+n);
 
-    let interval = setInterval(()=>{
-        if(progress < 54){
-            progress += Math.floor(Math.random()*5)+2;
-            if(progress>54) progress=54;
-            bar.style.width = progress + "%";
-            percentText.textContent = "Trust Level: " + progress + "%";
-        } else {
-            clearInterval(interval);
-            percentText.textContent = "Trust doesn't load instantly.";
-            setTimeout(()=>{
-                document.getElementById("finalMessage").classList.add("show");
-            },1500);
-        }
-    },500);
+if(n==2) type("t2","Ridhima,\n\nTum kehti ho trust aasaan nahi hota.\nAur shayad sahi kehti ho.");
+if(n==3) type("t3","Main tumhe convince karne nahi aaya.\nNa relationship me dhakelne.\n\nFeelings ko waqt chahiye.");
+if(n==4) type("t4","Agar kabhi lage sab chale jaate hain...\n\nMain shor nahi karta.\nPar rehne walon me se hoon.");
+if(n==5){
+type("t5","Main tumhe paane ka vaada nahi karta.\nMain tumhe samajhne ka iraada rakhta hoon.\n\nHappy Valentine’s Day.\nThank you for letting me know you.");
+document.body.classList.add("pink");
+}
 }
 
-typeLine();
+function type(id,text){
+let i=0;
+let el=document.getElementById(id);
+el.innerHTML="";
+function write(){
+if(i<text.length){
+el.innerHTML += text[i]=="\n"?"<br>":text[i];
+i++;
+setTimeout(write,32);
+}
+}
+write();
+}
+
+/* floating hearts */
+setInterval(()=>{
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="❤";
+h.style.left=Math.random()*100+"%";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),7000);
+},1200);
 
 </script>
 
